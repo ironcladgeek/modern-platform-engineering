@@ -1,0 +1,8 @@
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env
+.direnv
+EOF
+__pycache__/
