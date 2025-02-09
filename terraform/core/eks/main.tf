@@ -77,12 +77,12 @@ module "eks" {
 }
 
 # Configure kubectl
-resource "aws_eks_cluster_auth" "this" {
+data "aws_eks_cluster_auth" "this" {
   name = module.eks.cluster_name
 }
 
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-  token                  = aws_eks_cluster_auth.this.token
+  token                  = data.aws_eks_cluster_auth.this.token
 }
