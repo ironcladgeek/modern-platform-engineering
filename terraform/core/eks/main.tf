@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.0"
-    }
   }
 }
 
@@ -48,6 +44,10 @@ module "eks" {
   create_iam_role = false
   iam_role_arn    = var.cluster_role_arn
 
+  # Cluster access entry
+  # To add the current caller identity as an administrator
+  enable_cluster_creator_admin_permissions = true
+
   # Managed node groups
   eks_managed_node_groups = {
     main = {
@@ -74,15 +74,4 @@ module "eks" {
   enable_irsa = true
 
   tags = local.tags
-}
-
-# Configure kubectl
-data "aws_eks_cluster_auth" "this" {
-  name = module.eks.cluster_name
-}
-
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-  token                  = data.aws_eks_cluster_auth.this.token
 }
