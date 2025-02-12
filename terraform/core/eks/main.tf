@@ -55,7 +55,7 @@ module "eks" {
       max_size     = 3
       desired_size = 2
 
-      instance_type = "t3.nano"
+      instance_types = ["t3.medium", "t3.large"]
       capacity_type = "ON_DEMAND"
 
       create_iam_role = false
