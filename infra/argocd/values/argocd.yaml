@@ -1,0 +1,35 @@
+server:
+  extraArgs: ["--insecure"] # Remove in production
+  service:
+    type: LoadBalancer
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: alb
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+
+configs:
+  cm:
+    timeout.reconciliation: "180s"
+    application.instanceLabelKey: argocd.argoproj.io/instance
+
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      p, role:org-admin, applications, *, */*, allow
+      p, role:org-admin, clusters, *, *, allow
+      p, role:org-admin, projects, *, *, allow
+      g, platform-admins, role:org-admin
+
+repoServer:
+  resources:
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+
+applicationSet:
+  enabled: true
