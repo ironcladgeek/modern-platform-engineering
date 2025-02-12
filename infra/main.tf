@@ -1,11 +1,4 @@
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-
   backend "s3" {
     bucket = "modern-platform-engineering"
     key    = "platform-eng/terraform.tfstate"
@@ -15,6 +8,19 @@ terraform {
 
 provider "aws" {
   region = var.region
+}
+
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "aws"
+      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    }
+  }
 }
 
 module "vpc" {
@@ -44,4 +50,15 @@ module "eks" {
   private_subnet_ids = module.vpc.private_subnet_ids
   cluster_role_arn   = module.iam.eks_cluster_role_arn
   node_role_arn      = module.iam.eks_node_group_role_arn
+}
+
+module "argocd" {
+  source = "./argocd"
+
+  project           = var.project
+  environment       = var.environment
+  eks_cluster_name  = module.eks.cluster_name
+  oidc_provider_arn = module.eks.oidc_provider_arn
+
+  depends_on = [module.eks]
 }
