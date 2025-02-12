@@ -19,10 +19,11 @@ This project implements a production-ready Internal Developer Platform that show
 .
 ├── .github/
 │   └── workflows/         # GitHub Actions CI/CD workflows
-├── terraform/
-│   ├── eks/               # EKS cluster configuration
+├── infra/
 │   ├── argocd/            # ArgoCD installation and configuration
-│   └── core/              # Core infrastructure components
+│   ├── eks/               # EKS cluster configuration
+│   ├── iam/               # Identity management configuration
+│   └── vpc/               # Networking infrastructure components
 ├── kubernetes/
 │   ├── applications/      # Application manifests
 │   └── platform/          # Platform service manifests
@@ -86,7 +87,7 @@ This project implements a production-ready Internal Developer Platform that show
 
 4. Initialize Terraform:
    ```bash
-   cd terraform/core
+   cd infra
    terraform init
    ```
 
