@@ -83,7 +83,6 @@ jobs:
           push: true
           tags: |
             ${{ env.DOCKER_IMAGE }}:v${{ env.VERSION }}
-            ${{ env.DOCKER_IMAGE }}:${{ github.sha }}
 
       - name: Update Kubernetes manifests
         run: |
