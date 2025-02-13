@@ -11,6 +11,7 @@ on:
         type: choice
         options:
           - DEV
+          - PROD
       reason:
         description: "Reason for manual trigger"
         required: false
@@ -56,6 +57,7 @@ jobs:
   build-and-push:
     needs: test
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment || 'DEV' }}
 
     steps:
       - uses: actions/checkout@v4
