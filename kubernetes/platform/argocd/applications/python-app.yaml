@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: python-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://ironcladgeek/platform-eng-project.git
+    path: kubernetes/applications/python-app
+    targetRevision: main
+    directory:
+      include: "*.yaml" # Only process yaml files
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: python-app
+  syncPolicy:
+    automated:
+      prune: true # Remove resources that are no longer in Git
+      selfHeal: true # Fix any drift from Git state
+      allowEmpty: false # Prevent sync if directory is empty
+    syncOptions:
+      - CreateNamespace=true
