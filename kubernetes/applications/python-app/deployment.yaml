@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: python-app
-          image: ironcladgeek/platform-eng-python-app:latest
+          image: ironcladgeek/platform-eng-python-app:v1.0.4
           ports:
             - containerPort: 8080
           resources:
