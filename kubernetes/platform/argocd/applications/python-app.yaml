@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://ironcladgeek/platform-eng-project.git
+    repoURL: https://github.com/ironcladgeek/modern-platform-engineering.git
     path: kubernetes/applications/python-app
     targetRevision: main
     directory:
