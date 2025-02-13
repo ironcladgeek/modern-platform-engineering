@@ -116,3 +116,30 @@ This project implements a production-ready Internal Developer Platform that show
 - Implement self-service capabilities
 - Create documentation and runbooks
 - Set up development workflows
+
+## Guides
+
+### kubectl
+When EKS cluster provision is done, update the kubectl config:
+```bash
+aws eks update-kubeconfig --name $CLUSTER --region $REGION
+```
+
+### ArgoCD
+
+After installing ArgoCD, get the Load Balancer address:
+```bash
+kubectl get svc argocd-server -n argocd -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+```
+
+Then access the ArgoCD UI by navigating to the resolved address.
+
+The default username for ArgoCD is `admin`. Get the initial admin password:
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+
+Apply the Application manifest:
+```bash
+kubectl apply -f kubernetes/platform/argocd/applications/python-app.yaml
+```
