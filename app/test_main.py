@@ -19,3 +19,9 @@ def test_health_check(client):
 def test_hello_world(client):
     response = client.get("/")
     assert response.status_code == 200
+
+
+def test_echo(client):
+    response = client.get("/echo/Hello")
+    assert response.status_code == 200
+    assert response.json == {"message": "Hello"}

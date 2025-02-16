@@ -10,7 +10,12 @@ def health_check():
 
 @app.route("/")
 def hello_world():
-    return jsonify({"message": "Hello from Platform Engineering!"})
+    return jsonify({"message": "Hello World!"})
+
+
+@app.route("/echo/<message>")
+def echo(message):
+    return jsonify({"message": message})
 
 
 if __name__ == "__main__":
