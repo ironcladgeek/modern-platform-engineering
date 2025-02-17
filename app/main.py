@@ -10,7 +10,8 @@ def health_check():
 
 @app.route("/")
 def hello_world():
-    return jsonify({"message": "Hello World!"})
+    # return jsonify({"message": "Hello World!"})
+    return jsonify({"message": "Hello from Bionic Woman!"})
 
 
 @app.route("/echo/<message>")
